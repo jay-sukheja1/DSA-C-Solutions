@@ -1,7 +1,7 @@
 #include<iostream>
 using namespace std;
 
-bool linearsearch(int matrix[][3],int rows,int columns,int n){
+bool linearsearch(int matrix[][3],int rows,int columns,int n) {
     for(int i=0;i<rows;i++){
         for(int j=0;j<columns;j++){
             if(matrix[i][j]==n){
