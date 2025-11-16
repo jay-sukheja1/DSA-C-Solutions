@@ -5,10 +5,20 @@ using namespace std;
         double salary;
 
     public:
+        // non parameterized
         Teacher() {
             cout<<"I am constructor"<<endl;
             dept="Computer science";
         }
+
+        // parameterized
+        Teacher(string n,string d,string sub,double sal) {
+            name=n;
+            dept=d;
+            subject=sub;
+            salary=sal;
+        }
+
         string name;
         string dept;
         string subject;
@@ -39,5 +49,7 @@ int main(){
     cout<<t1.getsalary()<<endl;
     cout<<t1.name<<" "<<t1.dept<<" "<<t1.subject<<endl;
     t1.changedept("commerce");
+
+    Teacher t2(t1);   // copy constructor
     return 0;
 }
