@@ -104,7 +104,7 @@ public:
         }
         return prev;
     }
-    Node* middle(Node* head) {
+    Node* middle(Node* head) {    // slow-fast approach
         Node* slow=head;
         Node* fast=head;
         while (fast!=NULL && fast->next!=NULL) {
@@ -112,6 +112,82 @@ public:
             fast=fast->next->next;
         }
         return slow;
+    }
+    bool hascycle(Node* head) {
+        Node* slow=head;
+        Node* fast=head;
+        while (fast!=NULL && fast->next!=NULL) {
+            slow=slow->next;
+            fast=fast->next->next;
+            if (slow==fast) {
+                return true;
+            }
+        }
+        return false;
+    }
+    Node* detectstartcycle(Node* head) {
+        Node* slow=head;
+        Node* fast=head;
+        bool iscycle=false;
+        while (fast!=NULL && fast->next!=NULL) {
+            slow=slow->next;
+            fast=fast->next->next;
+            if (slow==fast) {
+                iscycle=true;
+                break;
+            }
+        }
+        if(!iscycle){
+            return NULL;
+        }
+
+        slow=head;
+        while (slow!=fast) {
+            slow=slow->next;
+            fast=fast->next;
+        }
+        return slow;
+    }
+    Node* removecycle(Node* head) {
+        Node* slow=head;
+        Node* fast=head;
+        bool iscycle=false;
+        while (fast!=NULL && fast->next!=NULL) {
+            slow=slow->next;
+            fast=fast->next->next;
+            if (slow==fast) {
+                iscycle=true;
+                break;
+            }
+        }
+        if(!iscycle){
+            return NULL;
+        }
+
+        slow=head;
+        Node* prev=NULL;
+        while (slow!=fast) {
+            slow=slow->next;
+            prev=fast;
+            fast=fast->next;
+        }
+        prev->next=NULL;
+        return slow;
+    }
+    Node* merge2list(Node* l1h,Node* l2h) {
+        if (l1h==NULL) {
+            return l2h;
+        }
+        if (l2h==NULL) {
+            return l1h;
+        }
+        if (l1h->data<=l2h->data) {
+            l1h->next=merge2list(l1h->next,l2h);
+            return l1h;
+        } else {
+            l2h->next=merge2list(l1h,l2h->next);
+            return l2h;
+        }
     }
     void printLL() {
         Node* temp=head;
