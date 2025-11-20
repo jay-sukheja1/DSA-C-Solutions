@@ -1,10 +1,13 @@
 #include<iostream>
+#include <unordered_map>
 using namespace std;
 
+// Singly list
 class Node {
 public:
     int data;
     Node* next;
+    Node* random;
 
     Node(int val) {
         data=val;
@@ -189,7 +192,32 @@ public:
             return l2h;
         }
     }
-    void printLL() {
+    Node* copylistwithrandomptr(Node* head) {
+        if (head==NULL) {
+            return NULL;
+        }
+        Node* newhead=new Node(head->data);
+        Node* temp1=head->next;
+        Node* temp2=newhead;
+        unordered_map<Node*,Node*> m;
+        m[head]=newhead;
+        while (temp1!=NULL) {
+            Node* copynode=new Node(temp1->data);
+            m[temp1]=copynode;
+            temp2->next=copynode;
+            temp1=temp1->next;
+            temp2=temp2->next;
+        }
+        temp1=head;
+        temp2=newhead;
+        while (temp1!=NULL) {
+            temp2->random=m[temp1->random];
+            temp1=temp1->next;
+            temp2=temp2->next;
+        }
+        return newhead;
+    }
+    void print() {
         Node* temp=head;
         while (temp!=NULL) {
             cout<<temp->data<<" ";
@@ -199,19 +227,132 @@ public:
     }
 };
 
+// Circular list
+class cirlist {
+    int data;
+    Node* head;
+    Node* tail;
 
+public:
+    cirlist() {
+        head=tail=nullptr;
+    }
+    void push_front(int val) {
+        Node* newnode=new Node(val);
+        if (head==nullptr) {
+            head=tail=newnode;
+            tail->next=head;
+        } else {
+            newnode->next=head;
+            head=newnode;
+            tail->next=head;
+        }
+    }
+    void push_back(int val) {
+        Node* newnode=new Node(val);
+        if (head==nullptr) {
+            head=tail=newnode;
+            tail->next=head;
+        } else {
+            tail->next=newnode;
+            tail=newnode;
+            tail->next=head;
+        }
+    }
+    void print() {
+        if (head==nullptr) {
+            return;
+        }
+        cout<<head->data<<" ";
+        Node* temp=head->next;
+        while (temp!=head) {
+            cout<<temp->data<<" ";
+            temp=temp->next;
+        }
+    }
+
+};
+
+
+// Doubly list
+class node {
+public:
+    int val;
+    node* next;
+    node* prev;
+
+    node(int num) {
+        val=num;
+        next=NULL;
+        prev=NULL;
+    }
+};
+class doublylist {
+    node* head;
+    node* tail;
+public:
+    doublylist() {
+        head=tail=NULL;
+    }
+    void push_front(int num) {
+        node* newnode=new node(num);
+        if (head==NULL) {
+            head=tail=newnode;
+            return;
+        } else {
+            head->prev=newnode;
+            newnode->next=head;
+            head=newnode;
+        }
+    }
+    void push_back(int num) {
+        node* newnode=new node(num);
+        if (head==nullptr) {
+            head=tail=newnode;
+            return;
+        } else {
+            tail->next=newnode;
+            newnode->prev=tail;
+            tail=newnode;
+        }
+    }
+    void pop_front() {
+        if (head==nullptr) {
+            return;
+        }
+        node* temp=head;
+        head=head->next;
+        temp->next=nullptr;
+        head->prev=nullptr;
+        delete temp;
+    }
+    void pop_back() {
+        if (head==nullptr) {
+            return;
+        }
+        node* temp=tail;
+        tail=tail->prev;
+        temp->prev=nullptr;
+        tail->next=nullptr;
+        delete temp;
+    }
+    void print() {
+        node* temp=head;
+        while (temp!=nullptr) {
+            cout<<temp->val<<" ";
+            temp=temp->next;
+        }
+        cout<<endl;
+    }
+};
 
 int main() {
-    list l1;
-    l1.push_front(1);
-    l1.push_front(2);
-    l1.push_front(3);
-    l1.push_back(4);
-    l1.pop_front();
-    l1.pop_back();
-    l1.insert(3,2);
+    doublylist dll;
+    dll.push_back(1);
+    dll.push_front(2);
+    dll.print();
 
-    l1.printLL();
-    cout<<l1.search(2)<<endl;
+    dll.pop_front();
+    dll.print();
     return 0;
 }

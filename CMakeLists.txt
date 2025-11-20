@@ -1,12 +1,6 @@
-cmake_minimum_required(VERSION 4.0)
+cmake_minimum_required(VERSION 3.31)
 project(MyProject)
-set(CMAKE_CXX_STANDARD 17)
 
-# Collect all .cpp files in the project directory
-file(GLOB SOURCES "*.cpp")
+set(CMAKE_CXX_STANDARD 20)
 
-# Create an executable for each .cpp file
-foreach(source ${SOURCES})
-    get_filename_component(target ${source} NAME_WE)
-    add_executable(${target} ${source})
-endforeach()
+add_executable(linkedlist_exec linkedlist.cpp)
